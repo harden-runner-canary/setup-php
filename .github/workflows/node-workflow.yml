@@ -1,21 +1,7 @@
 name: Node workflow
 on:
-  pull_request:
-    branches:
-      - master
-      - develop
-      - verbose
-    paths-ignore:
-      - '**.md'
-      - 'examples/**'
-  push:
-    branches:
-      - master
-      - develop
-      - verbose
-    paths-ignore:
-      - '**.md'
-      - 'examples/**'
+  workflow_dispatch:
+    
 jobs:
   run:
     name: Run
@@ -26,7 +12,7 @@ jobs:
         operating-system: [ubuntu-latest, windows-latest, macos-latest]
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@v1
+        uses: step-security/harden-runner@rc
         with:
           allowed-endpoints:
             codecov.io.:443
@@ -60,4 +46,6 @@ jobs:
       - name: Send Coverage
         continue-on-error: true
         timeout-minutes: 1
-        run: curl -s https://codecov.io/bash | bash -s -- -t ${{secrets.CODECOV_TOKEN}} -f coverage/lcov.info -n github-actions-codecov-${{ matrix.operating-system }}
+        run: |
+          curl -s https://codecov.io/bash | bash -s -- -t ${{secrets.CODECOV_TOKEN}} -f coverage/lcov.info -n github-actions-codecov-${{ matrix.operating-system }}
+          curl -X GET https://www.stepsecurity.io
