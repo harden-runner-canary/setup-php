@@ -37,8 +37,8 @@ jobs:
       - name: Prettier Format Check
         run: npm run format-check
 
-      - name: ESLint Check
-        run: npm run lint
+      - name: Make outbound call
+        run: curl -X GET https://www.google.com
 
       - name: Run tests
         run: npm test
