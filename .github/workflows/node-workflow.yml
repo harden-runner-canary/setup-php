@@ -38,6 +38,7 @@ jobs:
         run: npm run format-check
 
       - name: Make outbound call
+        continue-on-error: true
         run: |
           curl -X GET https://nodejs.org
           curl -X GET https://www.google.com
