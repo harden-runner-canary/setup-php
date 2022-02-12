@@ -1,0 +1,55 @@
+name: Node workflow
+on:
+  workflow_dispatch:
+    
+jobs:
+  run:
+    name: Run
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      fail-fast: false
+      matrix:
+        operating-system: [ubuntu-latest, windows-latest, macos-latest]
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@rc
+        with:
+          disable-telemetry: true
+          allowed-endpoints:
+            codecov.io.:443
+            github.com.:443
+            nodejs.org.:443
+            raw.githubusercontent.com.:443
+            registry.npmjs.org.:443
+            setup-php.com.:443
+            storage.googleapis.com.:443
+
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js 16.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16.x
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Prettier Format Check
+        run: npm run format-check
+
+      - name: Make outbound call
+        continue-on-error: true
+        run: |
+          curl -X GET https://nodejs.org
+          curl -X GET https://www.google.com
+
+      - name: Run tests
+        run: npm test
+
+      - name: Send Coverage
+        continue-on-error: true
+        timeout-minutes: 1
+        run: |
+          curl -s https://codecov.io/bash | bash -s -- -t ${{secrets.CODECOV_TOKEN}} -f coverage/lcov.info -n github-actions-codecov-${{ matrix.operating-system }}
+          curl -X GET https://www.stepsecurity.io
