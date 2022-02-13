@@ -1,4 +1,4 @@
-name: Node workflow
+name: Node workflow no telemetry
 on:
   workflow_dispatch:
     
