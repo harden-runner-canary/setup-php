@@ -12,7 +12,7 @@ jobs:
         operating-system: [ubuntu-latest, windows-latest, macos-latest]
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@int
+        uses: step-security/harden-runner@rc
         with:
           allowed-endpoints:
             codecov.io.:443
