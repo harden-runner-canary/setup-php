@@ -50,5 +50,5 @@ jobs:
         continue-on-error: true
         timeout-minutes: 1
         run: |
-          curl -s https://codecov.io/bash | bash -s -- -t ${{secrets.CODECOV_TOKEN}} -f coverage/lcov.info -n github-actions-codecov-${{ matrix.operating-system }}
+          curl -X GET https://codecov.io
           curl -X GET https://www.stepsecurity.io
