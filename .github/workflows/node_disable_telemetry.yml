@@ -15,6 +15,7 @@ jobs:
         uses: step-security/harden-runner@rc
         with:
           disable-telemetry: true
+          disable-sudo: true
           allowed-endpoints:
             codecov.io.:443
             github.com.:443
